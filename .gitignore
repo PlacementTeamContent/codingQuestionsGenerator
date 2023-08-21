@@ -1,0 +1,14 @@
+.env
+
+api_responses.json
+
+/node_modules
+/parent_json
+/prompts_json
+/responses_json
+/coding_responses
+/output_zip_files
+/final_responses
+/.idea
+
+generate_final.js
