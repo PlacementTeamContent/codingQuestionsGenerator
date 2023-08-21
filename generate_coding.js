@@ -54,11 +54,9 @@ const extractQuestionsData = (prompt_responses) => {
         prompt_response_json.forEach((response, index) => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
-            console.log(response["problem_text"]);
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            const question_text = response["problem_text"] + "\n\n### Sample Input:\n" + response["sample_input"] + "\n\n### Sample Output:\n" + response["sample_output"] + "\n\n### Explanation:\n" + response["explanation"] + "\n\n### COnstraints:\n" + response["constraints"];
+            const question_text = response["problem_text"] + "<hr /> <h3>Input:</h3>\n" + response["input"] + "<hr /> <h3>Output:</h3>\n" + response["output"] + "<hr /> <h3>Sample Input:</h3>\n" + response["sample_input"] + "\n\n### Sample Output:\n" + response["sample_output"] + "\n\n### Explanation:\n" + response["explanation"] + "<hr /> <h3>Constraints:</h3>\n" + response["constraints"];
             defaultTagNames.push(sourceTag);
-            // console.log(response);
             
             let input_output = [
                 {
