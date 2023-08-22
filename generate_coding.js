@@ -45,11 +45,14 @@ const extractQuestionsData = (prompt_responses) => {
         const short_text = prompt_response["short_text"];
         const startIndex = prompt_response["prompt_response"].indexOf("[");
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]");
+        console.log(prompt_response["prompt_response"].slice(startIndex, endIndex+1).slice(150, 193));
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
         let resources = {
           "resource_name": prompt_response["resource_name"], 
           "resource_url": prompt_response["resource_url"]
-        }; 
+        };
+        const code_language = prompt_response["code_language"].toUpperCase();
+
 
         prompt_response_json.forEach((response, index) => {
             let question_data = {};
@@ -131,7 +134,7 @@ const extractQuestionsData = (prompt_responses) => {
                 },
             ];
             question_data["code_metadata"].forEach(metadata => {
-              if (metadata["language"] === response["code_language"].toUpperCase()) {
+              if (metadata["language"] === code_language) {
                 metadata["code_data"] = response["code_data"];
                 metadata["default_code"] = true;
               }

@@ -5,7 +5,7 @@ const prompts_json_path = "./prompts_json";
 const responses_json_path = "./responses_json";
 const coding_responses_path = "./coding_responses";
 const output_zip_files_path = "./output_zip_files";
-// const final_responses_path = "./final_responses";
+const final_responses_path = "./final_responses";
 const api_responses_path = "./api_responses.json";
 const env_path = "./.env";
 
@@ -31,7 +31,7 @@ function start() {
         createFolder(responses_json_path);
         createFolder(coding_responses_path);
         createFolder(output_zip_files_path);
-        // createFolder(final_responses_path);
+        createFolder(final_responses_path);
         createFile(api_responses_path, "[]")
         createFile(env_path, "API_KEY = \"\"\nPARENT_JSON_FILE_NAME = \"\"")
     } catch (error) {
