@@ -30,6 +30,7 @@ fs.readFile(parent_json_file_path, "utf8", (readErr, questions_data) => {
       let sample_output = questionObj["sample_output"];
       let explanation = questionObj["explanation"];
       let constraints = questionObj["constraints"];
+      let code_language = questionObj["code_language"];
       let test_case_1 = questionObj["test_case_1"];
       let test_case_2 = questionObj["test_case_2"];
 
@@ -40,6 +41,7 @@ fs.readFile(parent_json_file_path, "utf8", (readErr, questions_data) => {
       problem_prompt = problem_prompt.replace("{{sample_output}}", sample_output);
       problem_prompt = problem_prompt.replace("{{explanation}}", explanation);
       problem_prompt = problem_prompt.replace("{{constraints}}", constraints);
+      problem_prompt = problem_prompt.replace("{{code_language}}", code_language);
 
       remark().process(problem_prompt, (err, file) => {
         if (err) throw err;
