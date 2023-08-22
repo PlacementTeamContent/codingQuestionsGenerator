@@ -41,7 +41,7 @@ fs.readFile(parent_json_file_path, "utf8", (readErr, questions_data) => {
       problem_prompt = problem_prompt.replace("{{sample_output}}", sample_output);
       problem_prompt = problem_prompt.replace("{{explanation}}", explanation);
       problem_prompt = problem_prompt.replace("{{constraints}}", constraints);
-      problem_prompt = problem_prompt.replace("{{code_language}}", code_language);
+      problem_prompt = problem_prompt.replaceAll("{{code_language}}", code_language);
 
       remark().process(problem_prompt, (err, file) => {
         if (err) throw err;

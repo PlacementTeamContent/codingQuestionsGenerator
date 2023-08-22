@@ -104,8 +104,8 @@ const extractQuestionsData = (prompt_responses) => {
                 {
                   "is_editable": true,
                   "language": "PYTHON",
-                  "code_data": response["code_data"],
-                  "default_code": true,
+                  "code_data": "",
+                  "default_code": false,
                   "base64_encoded": false
                 },
                 {
@@ -130,6 +130,12 @@ const extractQuestionsData = (prompt_responses) => {
                   "base64_encoded": false
                 },
             ];
+            question_data["code_metadata"].forEach(metadata => {
+              if (metadata["language"] === response["code_language"].toUpperCase()) {
+                metadata["code_data"] = response["code_data"];
+                metadata["default_code"] = true;
+              }
+            })
             question_data["cpp_python_time_factor"] = 0;
             question_data["question_id"] = v4();
             question_data["tag_names"] = defaultTagNames;
