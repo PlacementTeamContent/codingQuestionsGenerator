@@ -42,9 +42,10 @@ const extractQuestionsData = (prompt_responses) => {
     let final_json_sheet = [];
     
     prompt_responses.forEach((prompt_response, index) => {
+        console.log(index);
         const short_text = prompt_response["short_text"];
-        const startIndex = prompt_response["prompt_response"].indexOf("[");
-        const endIndex = prompt_response["prompt_response"].lastIndexOf("]");
+        const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
+        const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
         let resources = {
           "resource_name": prompt_response["resource_name"], 
@@ -54,11 +55,10 @@ const extractQuestionsData = (prompt_responses) => {
 
 
         prompt_response_json.forEach(response => {
-            console.log(index);
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            const question_text = response["problem_text"] + "<hr /> <h3>Input:</h3>\n" + response["input"] + "<hr /> <h3>Output:</h3>\n" + response["output"] + "<hr /> <h3>Sample Input:</h3>\n" + response["sample_input"] + "\n\n### Sample Output:\n" + response["sample_output"] + "\n\n### Explanation:\n" + response["explanation"] + "<hr /> <h3>Constraints:</h3>\n" + response["constraints"];
+            const question_text = response["problem_text"] + "<hr /> <h3>Input:</h3>\n" + prompt_response["input"] + "<hr /> <h3>Output:</h3>\n" + prompt_response["output"] + "<hr /> <h3>Sample Input:</h3>\n" + response["sample_input"] + "\n\n### Sample Output:\n" + response["sample_output"] + "\n\n### Explanation:\n" + response["explanation"] + "<hr /> <h3>Constraints:</h3>\n" + response["constraints"];
             defaultTagNames.push(sourceTag);
             
             let input_output = [

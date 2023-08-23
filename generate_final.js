@@ -42,8 +42,8 @@ const extractQuestionsData = (prompt_responses) => {
     let final_json_sheet = [];
     
     prompt_responses.forEach(prompt_response => {
-        const startIndex = prompt_response["prompt_response"].indexOf("[");
-        const endIndex = prompt_response["prompt_response"].lastIndexOf("]");
+        const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
+        const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
         let resources = {
           "resource_name": prompt_response["resource_name"], 
@@ -126,8 +126,8 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["hints"] = [];
                 test_cases["code_language"] = ""
                 test_cases["code_data"] = "";
-                test_cases["test_case_input"] = test_case.slice(7, test_case.indexOf("Output: "));
-                test_cases["test_case_ouput"] = test_case.slice(test_case.indexOf("Output: ") + 8, );
+                test_cases["test_case_input"] = test_case["Input"];
+                test_cases["test_case_ouput"] = test_case["Output"];
                 test_cases["cpp_python_time_factor"] = "";
                 // test_cases["question_id"] = v4();
                 test_cases["tag_names"] = "";
