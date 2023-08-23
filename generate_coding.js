@@ -41,11 +41,10 @@ const extractQuestionsData = (prompt_responses) => {
 
     let final_json_sheet = [];
     
-    prompt_responses.forEach(prompt_response => {
+    prompt_responses.forEach((prompt_response, index) => {
         const short_text = prompt_response["short_text"];
         const startIndex = prompt_response["prompt_response"].indexOf("[");
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]");
-        console.log(prompt_response["prompt_response"].slice(startIndex, endIndex+1).slice(150, 193));
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
         let resources = {
           "resource_name": prompt_response["resource_name"], 
@@ -54,7 +53,8 @@ const extractQuestionsData = (prompt_responses) => {
         const code_language = prompt_response["code_language"].toUpperCase();
 
 
-        prompt_response_json.forEach((response, index) => {
+        prompt_response_json.forEach(response => {
+            console.log(index);
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
@@ -74,8 +74,8 @@ const extractQuestionsData = (prompt_responses) => {
                 if (i === 1 || i === 2) {is_hidden = false;}
                 let test_case = response["test_cases"]["test_case_"+i];
                 let input = {
-                    "input": test_case.slice(7, test_case.indexOf("Output: ")),
-                    "output": test_case.slice(test_case.indexOf("Output: ") + 8, ),
+                    "input": test_case["Input"],
+                    "output": test_case["Output"],
                     "is_hidden": is_hidden,
                     "score": 1,
                     "testcase_type": "DEFAULT",
