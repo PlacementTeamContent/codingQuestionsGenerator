@@ -13,10 +13,11 @@ Step-3:- Run the following command in terminal: ` node generate_prompts.js `.
 Step-4:- Run the following command in terminal: ` node generate_responses.js `.  
 Step-5:- Run the following command in terminal: ` node generate_coding.js `.  
 Step-6:- Run the following command in terminal: ` node generate_zip.js `.  
-Step-7:- Now You can find your intermediate output file in **responses_json** directory with suffix as "_responses.json" file.  
-Step-8:- Now You can find your final output file in **final_responses_json** directory with suffix as "_final_responses.json" file.  
+Step-7:- Run the following command in terminal: ` node generate_final.js `.  
+Step-8:- Now You can find your intermediate output file in **responses_json** directory with suffix as "_responses.json" file.  
+Step-9:- Now You can find your final output file in **final_responses_json** directory with suffix as "_final_responses.json" file.  
 
 ### Post-Works
-- Now convert your json into csv file [json_to_csv](https://data.page/json/csv) for Step-7 & 8.  
-- Store the csv file (mentioned in Step-7) into **Prompts & Responses (csv)** folder in g-drive.
-- Store the csv file (mentioned in Step-8) into **Curation** folder as **SHEET_1** in g-drive.
+- Now convert your json into csv file [json_to_csv](https://data.page/json/csv) for Step-8 & 9.  
+- Store the csv file (mentioned in Step-8) into **Prompts & Responses (csv)** folder in g-drive.
+- Store the csv file (mentioned in Step-9) into **Curation** folder as **SHEET_1** in g-drive.
