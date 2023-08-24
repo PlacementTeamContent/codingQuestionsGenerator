@@ -79,6 +79,8 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["cpp_python_time_factor"] = 0;
             // question_data["question_id"] = v4();
             question_data["tag_names"] = 2;
+            question_data["resource_name"] = resources["resource_name"];
+            question_data["resource_url"] = resources["resource_url"];
             final_json_sheet.push(question_data);
             
             for (let i=0; i<2; i++) {
@@ -104,6 +106,8 @@ const extractQuestionsData = (prompt_responses) => {
               tag_names["cpp_python_time_factor"] = "";
               // tag_names["question_id"] = v4();
               tag_names["tag_names"] = defaultTagNames[i];
+              tag_names["resource_name"] = "";
+              tag_names["resource_url"] = "";
               final_json_sheet.push(tag_names);
             }
 
@@ -131,6 +135,8 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["cpp_python_time_factor"] = "";
                 // test_cases["question_id"] = v4();
                 test_cases["tag_names"] = "";
+                test_cases["resource_name"] = "";
+                test_cases["resource_url"] = "";
                 final_json_sheet.push(test_cases);
             }
         });
