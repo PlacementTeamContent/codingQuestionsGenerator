@@ -23,3 +23,7 @@ Step-11:- Now You can find your final output file in **final_responses_json** di
 - Now convert your json into csv file [json_to_csv](https://data.page/json/csv) for Step-10 & 11.  
 - Store the csv file (mentioned in Step-10) into **Prompts & Responses (csv)** folder in g-drive.
 - Store the csv file (mentioned in Step-11) into **Curation** folder as **SHEET_1** in g-drive.
+
+
+### Updates
+- Run the following command for new latest repo version: ` git pull origin main `  .

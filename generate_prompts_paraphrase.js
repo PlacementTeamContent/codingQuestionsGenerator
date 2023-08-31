@@ -17,7 +17,7 @@ fs.readFile(parent_json_file_path, "utf8", (readErr, questions_data) => {
 
   let questions_data_json = JSON.parse(questions_data);
 
-  fs.readFile("./prompt1.md", "utf8", (err, prompt) => {
+  fs.readFile("./prompt_p.md", "utf8", (err, prompt) => {
     if (err) {
       console.error("Error reading the file:", err);
       return;

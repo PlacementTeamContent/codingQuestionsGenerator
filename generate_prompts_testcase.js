@@ -17,29 +17,27 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
 
   let questions_data_json = JSON.parse(questions_data);
 
-  fs.readFile("./prompt2.md", "utf8", (err, prompt) => {
+  fs.readFile("./prompt_t.md", "utf8", (err, prompt) => {
     if (err) {
       console.error("Error reading the file:", err);
       return;
     }
 
     questions_data_json.forEach((questionObj, index) => {
-      // console.log(questionObj);
+      
       const prompt_response = questionObj["prompt_response"];
       const startIndex = prompt_response.indexOf("```json\n[") + 8;
       const endIndex = prompt_response.lastIndexOf("]\n```");
       let prompt_response_str = prompt_response.slice(startIndex, endIndex+1);
       console.log(index);
-      // prompt_response_str = prompt_response_str.replace(/\n/g, '\\n').replace(/\\"/g, '"');
+
       const prompt_response_json = JSON.parse(prompt_response_str);
-      // console.log(prompt_response_json);
       
       let problem_text = prompt_response_json[0]["problem_text"];
       let short_text = questionObj["short_text"];
       let input_format = prompt_response_json[0]["input_format"];
       let output_format = prompt_response_json[0]["output_format"];
       let constraints = prompt_response_json[0]["constraints"];
-      // console.log(problem_text);
       
 
       let description = "";

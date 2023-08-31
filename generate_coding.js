@@ -48,6 +48,7 @@ const extractQuestionsData = (prompt_responses) => {
         const input_format = prompt_response["input_format"];
         const output_format = prompt_response["output_format"];
         const constraints = prompt_response["constraints"];
+        const company = prompt_response["company"];
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
@@ -55,14 +56,16 @@ const extractQuestionsData = (prompt_responses) => {
           "resource_name": prompt_response["resource_name"], 
           "resource_url": prompt_response["resource_url"]
         };
-        const code_language = prompt_response["code_language"];
+        // const code_language = prompt_response["code_language"];
 
 
         prompt_response_json.forEach(response => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
+            const companyTag = "COMPANY_" + company.toUpperCase();
             const question_text = problem_text + "<hr /> <h3>Input:</h3>\n" + input_format + "<hr /> <h3>Output:</h3>\n" + output_format + "<hr /> <h3>Constraints:</h3>\n" + constraints;
+            defaultTagNames.push(companyTag);
             defaultTagNames.push(sourceTag);
             
             let input_output = [

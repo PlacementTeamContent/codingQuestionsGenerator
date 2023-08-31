@@ -51,11 +51,14 @@ const extractQuestionsData = (prompt_responses) => {
         };
         const short_text = prompt_response["short_text"]; 
         const code_language = prompt_response["code_language"];
+        const company = prompt_response["company"];
 
         prompt_response_json.forEach((response, index) => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
+            const companyTag = "COMPANY_" + company.toUpperCase();
+            defaultTagNames.push(companyTag);
             defaultTagNames.push(sourceTag); 
 
             question_data["problem_text"] = prompt_response["problem_text"];
@@ -83,7 +86,7 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["resource_url"] = resources["resource_url"];
             final_json_sheet.push(question_data);
             
-            for (let i=0; i<2; i++) {
+            for (let i=0; i<3; i++) {
               let tag_names = {};
               tag_names["problem_text"] = "";
               tag_names["short_text"] = "";
