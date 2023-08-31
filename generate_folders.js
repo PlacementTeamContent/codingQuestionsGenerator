@@ -1,8 +1,10 @@
 import fs from "fs";
 
 const parent_json_path = "./parent_json";
-const prompts_json_path = "./prompts_json";
-const responses_json_path = "./responses_json";
+const prompts_paraphrase_json_path = "./prompts_paraphrase_json";
+const prompts_testcase_json_path = "./prompts_testcase_json";
+const responses_paraphrase_json_path = "./responses_paraphrase_json";
+const responses_testcase_json_path = "./responses_testcase_json";
 const coding_responses_path = "./coding_responses";
 const output_zip_files_path = "./output_zip_files";
 const final_responses_path = "./final_responses";
@@ -27,8 +29,10 @@ const createFile = (file_path, content) => {
 function start() {
     try {
         createFolder(parent_json_path);
-        createFolder(prompts_json_path);
-        createFolder(responses_json_path);
+        createFolder(prompts_paraphrase_json_path);
+        createFolder(prompts_testcase_json_path);
+        createFolder(responses_paraphrase_json_path);
+        createFolder(responses_testcase_json_path);
         createFolder(coding_responses_path);
         createFolder(output_zip_files_path);
         createFolder(final_responses_path);

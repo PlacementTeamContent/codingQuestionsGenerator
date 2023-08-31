@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const parent_json_file_name = process.env.PARENT_JSON_FILE_NAME;
-const prompts_file_name = parent_json_file_name + "_prompts.json";
-const questions_prompts_path = "./prompts_json/" + prompts_file_name;
-const questions_response_path = "./responses_json/" + parent_json_file_name + "_responses.json";
+const prompts_testcase_json_file_name = parent_json_file_name + "_p_testcase.json";
+const questions_prompts_path = "./prompts_testcase_json/" + prompts_testcase_json_file_name;
+const questions_response_path = "./responses_testcase_json/" + parent_json_file_name + "_r_testcase.json";
 const api_responses_path = "./api_responses.json";
 
 fs.writeFile(questions_response_path, "[]", 'utf8', (err) => {

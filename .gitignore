@@ -1,11 +1,14 @@
 .env
 
 api_responses.json
+prompt.md
 
 /node_modules
 /parent_json
-/prompts_json
-/responses_json
+/prompts_paraphrase_json
+/prompts_testcase_json
+/responses_paraphrase_json
+/responses_testcase_json
 /coding_responses
 /output_zip_files
 /final_responses

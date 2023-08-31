@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const parent_json_file_name = process.env.PARENT_JSON_FILE_NAME;
-const questions_response_path = "./responses_json/" + parent_json_file_name + "_responses.json";
+const responses_testcase_json_path = "./responses_testcase_json/" + parent_json_file_name + "_r_testcase.json";
 const final_responses_path = "./final_responses/" + parent_json_file_name + "_final_responses.json";
 
 const readFileAsync = async (file, options) =>
@@ -22,7 +22,7 @@ const readFileAsync = async (file, options) =>
 
 async function getPromptResponses() {
     try {
-      const questions_prompts = await readFileAsync(questions_response_path, "utf8");
+      const questions_prompts = await readFileAsync(responses_testcase_json_path, "utf8");
       const questions_prompts_json = JSON.parse(questions_prompts);
       return questions_prompts_json;
     } catch (error) {
@@ -58,7 +58,7 @@ const extractQuestionsData = (prompt_responses) => {
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
             defaultTagNames.push(sourceTag); 
 
-            question_data["problem_text"] = response["problem_text"];
+            question_data["problem_text"] = prompt_response["problem_text"];
             question_data["short_text"] = short_text;
             question_data["question_type"] = "CODING";
             question_data["question_key"] = index;
@@ -113,7 +113,7 @@ const extractQuestionsData = (prompt_responses) => {
 
             for (let i=1; i<=10; i++) {
                 let test_cases = {};
-                let test_case = response["test_cases"]["test_case_"+i];
+                let test_case = response["test_cases"]["test_cases_"+i];
                 test_cases["problem_text"] = "";
                 test_cases["short_text"] = "";
                 test_cases["question_type"] = "";
@@ -130,8 +130,8 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["hints"] = [];
                 test_cases["code_language"] = ""
                 test_cases["code_data"] = "";
-                test_cases["test_case_input"] = test_case["Input"];
-                test_cases["test_case_ouput"] = test_case["Output"];
+                test_cases["test_case_input"] = test_case["input"];
+                test_cases["test_case_ouput"] = test_case["output"];
                 test_cases["cpp_python_time_factor"] = "";
                 // test_cases["question_id"] = v4();
                 test_cases["tag_names"] = "";

@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const parent_json_file_name = process.env.PARENT_JSON_FILE_NAME;
-const questions_response_path = "./responses_json/" + parent_json_file_name + "_responses.json";
-const final_responses_path = "./coding_responses/" + parent_json_file_name + "_coding.json";
+const responses_testcase_json_path = "./responses_testcase_json/" + parent_json_file_name + "_r_testcase.json";
+const coding_responses_path = "./coding_responses/" + parent_json_file_name + "_coding.json";
 
 const readFileAsync = async (file, options) =>
   await new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ const readFileAsync = async (file, options) =>
 
 async function getPromptResponses() {
     try {
-      const questions_prompts = await readFileAsync(questions_response_path, "utf8");
+      const questions_prompts = await readFileAsync(responses_testcase_json_path, "utf8");
       const questions_prompts_json = JSON.parse(questions_prompts);
       return questions_prompts_json;
     } catch (error) {
@@ -43,7 +43,11 @@ const extractQuestionsData = (prompt_responses) => {
     
     prompt_responses.forEach((prompt_response, index) => {
         console.log(index);
+        const problem_text = prompt_response["problem_text"];
         const short_text = prompt_response["short_text"];
+        const input_format = prompt_response["input_format"];
+        const output_format = prompt_response["output_format"];
+        const constraints = prompt_response["constraints"];
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
@@ -51,14 +55,14 @@ const extractQuestionsData = (prompt_responses) => {
           "resource_name": prompt_response["resource_name"], 
           "resource_url": prompt_response["resource_url"]
         };
-        const code_language = prompt_response["code_language"].toUpperCase();
+        const code_language = prompt_response["code_language"];
 
 
         prompt_response_json.forEach(response => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            const question_text = response["problem_text"] + "<hr /> <h3>Input:</h3>\n" + prompt_response["input"] + "<hr /> <h3>Output:</h3>\n" + prompt_response["output"] + "<hr /> <h3>Sample Input:</h3>\n" + response["sample_input"] + "\n\n### Sample Output:\n" + response["sample_output"] + "\n\n### Explanation:\n" + response["explanation"] + "<hr /> <h3>Constraints:</h3>\n" + response["constraints"];
+            const question_text = problem_text + "<hr /> <h3>Input:</h3>\n" + input_format + "<hr /> <h3>Output:</h3>\n" + output_format + "<hr /> <h3>Constraints:</h3>\n" + constraints;
             defaultTagNames.push(sourceTag);
             
             let input_output = [
@@ -71,11 +75,15 @@ const extractQuestionsData = (prompt_responses) => {
 
             for (let i=1; i<=10; i++) {
                 let is_hidden = true;
-                if (i === 1 || i === 2) {is_hidden = false;}
-                let test_case = response["test_cases"]["test_case_"+i];
+                let test_case = response["test_cases"]["test_cases_"+i];
+                let count_of_non_hidden_cases = 0;
+                if (test_case["test_case_type"].toUpperCase() === "NORMAL_CASE" && count_of_non_hidden_cases < 2) {
+                  is_hidden = false;
+                  count_of_non_hidden_cases += 1;
+                }
                 let input = {
-                    "input": test_case["Input"],
-                    "output": test_case["Output"],
+                    "input": test_case["input"],
+                    "output": test_case["output"],
                     "is_hidden": is_hidden,
                     "score": 1,
                     "testcase_type": "DEFAULT",
@@ -106,9 +114,9 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["code_metadata"] = [
                 {
                   "is_editable": true,
-                  "language": "PYTHON",
+                  "language": "PYTHON39",
                   "code_data": "",
-                  "default_code": false,
+                  "default_code": true,
                   "base64_encoded": false
                 },
                 {
@@ -133,12 +141,12 @@ const extractQuestionsData = (prompt_responses) => {
                   "base64_encoded": false
                 },
             ];
-            question_data["code_metadata"].forEach(metadata => {
-              if (metadata["language"] === code_language) {
-                metadata["code_data"] = response["code_data"];
-                metadata["default_code"] = true;
-              }
-            })
+            // question_data["code_metadata"].forEach(metadata => {
+            //   if (metadata["language"] === code_language) {
+            //     metadata["code_data"] = response["code_data"];
+            //     metadata["default_code"] = true;
+            //   }
+            // })
             question_data["cpp_python_time_factor"] = 0;
             question_data["question_id"] = v4();
             question_data["tag_names"] = defaultTagNames;
@@ -147,7 +155,7 @@ const extractQuestionsData = (prompt_responses) => {
     });
     console.log("\nWriting into file\n");
     const jsonData = JSON.stringify(final_json_sheet);
-  fs.writeFile(final_responses_path, jsonData, 'utf8', (err) => {
+  fs.writeFile(coding_responses_path, jsonData, 'utf8', (err) => {
     if (err) {
       console.error('An error occurred while writing the file:', err);
       return;
