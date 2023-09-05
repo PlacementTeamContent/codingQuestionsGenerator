@@ -42,28 +42,31 @@ const extractQuestionsData = (prompt_responses) => {
     let final_json_sheet = [];
     
     prompt_responses.forEach((prompt_response, index) => {
-        console.log(index);
         const problem_text = prompt_response["problem_text"];
         const short_text = prompt_response["short_text"];
         const input_format = prompt_response["input_format"];
         const output_format = prompt_response["output_format"];
         const constraints = prompt_response["constraints"];
-        const company = prompt_response["company"];
+        const company = prompt_response["company"] || "UNKNOWN";
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
-        const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
+        console.log(index, short_text);
+        let prompt_response_str = prompt_response["prompt_response"].slice(startIndex, endIndex+1);
+        prompt_response_str.replaceAll("\\\\n", "\\n");
+
+      const prompt_response_json = JSON.parse(prompt_response_str);
         let resources = {
           "resource_name": prompt_response["resource_name"], 
           "resource_url": prompt_response["resource_url"]
         };
-        // const code_language = prompt_response["code_language"];
+        const code_language = prompt_response["code_language"].toUpperCase();
 
 
         prompt_response_json.forEach(response => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            const companyTag = "COMPANY_" + company.toUpperCase();
+            const companyTag = "SOURCE_CODING_" + company.toUpperCase();
             const question_text = problem_text + "<hr /> <h3>Input:</h3>\n" + input_format + "<hr /> <h3>Output:</h3>\n" + output_format + "<hr /> <h3>Constraints:</h3>\n" + constraints;
             defaultTagNames.push(companyTag);
             defaultTagNames.push(sourceTag);
@@ -117,7 +120,7 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["code_metadata"] = [
                 {
                   "is_editable": true,
-                  "language": "PYTHON39",
+                  "language": "PYTHON",
                   "code_data": "",
                   "default_code": true,
                   "base64_encoded": false
@@ -144,12 +147,15 @@ const extractQuestionsData = (prompt_responses) => {
                   "base64_encoded": false
                 },
             ];
-            // question_data["code_metadata"].forEach(metadata => {
-            //   if (metadata["language"] === code_language) {
-            //     metadata["code_data"] = response["code_data"];
-            //     metadata["default_code"] = true;
-            //   }
-            // })
+            question_data["code_metadata"].forEach(metadata => {
+              if (metadata["language"] === code_language) {
+                metadata["code_data"] = response["code_data"];
+                metadata["default_code"] = true;
+              }
+              if (metadata["language"] === "PYTHON") {
+                metadata["language"] = "PYTHON39";
+              }
+            })
             question_data["cpp_python_time_factor"] = 0;
             question_data["question_id"] = v4();
             question_data["tag_names"] = defaultTagNames;

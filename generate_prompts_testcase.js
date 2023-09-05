@@ -28,8 +28,9 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       const prompt_response = questionObj["prompt_response"];
       const startIndex = prompt_response.indexOf("```json\n[") + 8;
       const endIndex = prompt_response.lastIndexOf("]\n```");
-      let prompt_response_str = prompt_response.slice(startIndex, endIndex+1);
       console.log(index);
+      let prompt_response_str = prompt_response.slice(startIndex, endIndex+1);
+      prompt_response_str.replaceAll("\\\\n", "\\n");
 
       const prompt_response_json = JSON.parse(prompt_response_str);
       
@@ -38,6 +39,7 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       let input_format = prompt_response_json[0]["input_format"];
       let output_format = prompt_response_json[0]["output_format"];
       let constraints = prompt_response_json[0]["constraints"];
+      let code_language = questionObj["code"];
       
 
       let description = "";
@@ -46,6 +48,7 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       problem_prompt = problem_prompt.replace("{{input_format}}", input_format);
       problem_prompt = problem_prompt.replace("{{output_format}}", output_format);
       problem_prompt = problem_prompt.replace("{{constraints}}", constraints);
+      problem_prompt = problem_prompt.replace("{{code_language}}", code_language);
 
       remark().process(problem_prompt, (err, file) => {
         if (err) throw err;

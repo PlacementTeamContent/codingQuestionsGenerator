@@ -50,8 +50,9 @@ const extractQuestionsData = (prompt_responses) => {
           "resource_url": prompt_response["resource_url"]
         };
         const short_text = prompt_response["short_text"]; 
-        const code_language = prompt_response["code_language"];
+        const code_language = prompt_response["code_language"].toUpperCase();
         const company = prompt_response["company"];
+        // const difficulty_level = prompt_response["difficulty_level"].toUpperCase();
 
         prompt_response_json.forEach((response, index) => {
             let question_data = {};
@@ -68,7 +69,7 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["skills"] = [];
             question_data["question_format"] = "CODING_PRACTICE";
             question_data["content_type"] = "MARKDOWN";
-            question_data["difficulty"] = "EASY";
+            question_data["difficulty"] = difficulty_level || "XXXX";
             question_data["remarks"] = "";
             question_data["scores_updated"] = true;
             question_data["scores_computed"] = 10;
@@ -78,10 +79,11 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["code_language"] = code_language
             question_data["code_data"] = response["code_data"];
             question_data["test_case_input"] = "";
-            question_data["test_case_ouput"] = "";
+            question_data["test_case_output"] = "";
+            question_data["test_case_type"] = "";
             question_data["cpp_python_time_factor"] = 0;
             // question_data["question_id"] = v4();
-            question_data["tag_names"] = 2;
+            question_data["tag_names"] = 3;
             question_data["resource_name"] = resources["resource_name"];
             question_data["resource_url"] = resources["resource_url"];
             final_json_sheet.push(question_data);
@@ -105,7 +107,8 @@ const extractQuestionsData = (prompt_responses) => {
               tag_names["code_language"] = ""
               tag_names["code_data"] = "";
               tag_names["test_case_input"] = "";
-              tag_names["test_case_ouput"] = "";
+              tag_names["test_case_output"] = "";
+              tag_names["test_case_type"] = "";
               tag_names["cpp_python_time_factor"] = "";
               // tag_names["question_id"] = v4();
               tag_names["tag_names"] = defaultTagNames[i];
@@ -134,7 +137,8 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["code_language"] = ""
                 test_cases["code_data"] = "";
                 test_cases["test_case_input"] = test_case["input"];
-                test_cases["test_case_ouput"] = test_case["output"];
+                test_cases["test_case_output"] = test_case["output"];
+                test_cases["test_case_output"] = test_case["test_case_type"];
                 test_cases["cpp_python_time_factor"] = "";
                 // test_cases["question_id"] = v4();
                 test_cases["tag_names"] = "";

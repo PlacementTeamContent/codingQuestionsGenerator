@@ -1,4 +1,4 @@
-Hey GPT, assume that you are an expert problem setter for Coding Problems. Your task is to generate the test cases for a given coding problem. So for that you will be provided with a problem_text, input_format, output_format and constraints for the given problem.
+Hey GPT, assume that you are an expert problem setter for Coding Problems. Your task is to generate the test cases and code solution for a given coding problem. So for that you will be provided with a problem_text, input_format, output_format and constraints for the given problem.
 
 "problem_text": {{problem_text}}
 "input_format": {{input_format}}
@@ -13,15 +13,18 @@ Test Case Types:
 
 Instructions:
 1) You have to generate 10 new and unique test cases for the given coding problem.
-2) Make sure to generate test cases from all the four types of test cases that are described above and basing on that desciption of the test case types, assign the appropriate "test_case_type" value to each test case.
-3) You have to generate the output only in the below prescribed JSON format.  
-4) All the test cases has to be strictly generated as per the "problem_text", "input_format", "output_format" and "constraints".  
+2) Make sure to generate test cases from all the four types of test cases that are described above and basing on that desciption of the test case types, assign the appropriate "test_case_type" value to each test case.  
+3) You also have to generate the {{code_language}} code as solution at "code_data" field in JSON.  
+4) You have to generate the output only in the below prescribed JSON format.  
+5) All the test cases has to be strictly generated as per the "problem_text", "input_format", "output_format" and "constraints".  
+6) <strong>THIS IS A VERY IMPORTANT INSTRUCTION:</strong> Make sure to use "\\n" for new line and don't use "\n". Even if you find any "\n" in the JSON values, do replace them with "\\n".
 
 JSON Format:
 
 ```json
 [
 {
+"code_data": "CODE SOLUTION HERE",
 "test_cases": {
     "test_cases_1": {
     "input": "TEST CASE INPUT HERE",
