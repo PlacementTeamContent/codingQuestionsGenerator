@@ -31,17 +31,11 @@ async function getPromptResponses() {
     }
 }
 
-const difficulty_level = {
-  "0" : "EASY",
-  "1" : "MEDIUM",
-  "2" : "HARD"
-}
-
 const extractQuestionsData = (prompt_responses) => {
 
     let final_json_sheet = [];
     
-    prompt_responses.forEach(prompt_response => {
+    prompt_responses.forEach((prompt_response, index) => {
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         const prompt_response_json = JSON.parse(prompt_response["prompt_response"].slice(startIndex, endIndex+1));
@@ -52,24 +46,26 @@ const extractQuestionsData = (prompt_responses) => {
         const short_text = prompt_response["short_text"]; 
         const code_language = prompt_response["code_language"].toUpperCase();
         const company = prompt_response["company"];
-        // const difficulty_level = prompt_response["difficulty_level"].toUpperCase();
+        const difficulty_level = prompt_response["difficulty_level"] || "XXXX";
 
-        prompt_response_json.forEach((response, index) => {
+        prompt_response_json.forEach(response => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
             const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            const companyTag = "COMPANY_" + company.toUpperCase();
+            const companyTag = "SOURCE_CODING_" + company.toUpperCase();
             defaultTagNames.push(companyTag);
             defaultTagNames.push(sourceTag); 
 
             question_data["problem_text"] = prompt_response["problem_text"];
+            question_data["input_format"] = prompt_response["input_format"];
+            question_data["output_format"] = prompt_response["output_format"];
             question_data["short_text"] = short_text;
             question_data["question_type"] = "CODING";
             question_data["question_key"] = index;
             question_data["skills"] = [];
             question_data["question_format"] = "CODING_PRACTICE";
             question_data["content_type"] = "MARKDOWN";
-            question_data["difficulty"] = difficulty_level || "XXXX";
+            question_data["difficulty"] = difficulty_level.toUpperCase();
             question_data["remarks"] = "";
             question_data["scores_updated"] = true;
             question_data["scores_computed"] = 10;
@@ -138,7 +134,7 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["code_data"] = "";
                 test_cases["test_case_input"] = test_case["input"];
                 test_cases["test_case_output"] = test_case["output"];
-                test_cases["test_case_output"] = test_case["test_case_type"];
+                test_cases["test_case_type"] = test_case["test_case_type"];
                 test_cases["cpp_python_time_factor"] = "";
                 // test_cases["question_id"] = v4();
                 test_cases["tag_names"] = "";
