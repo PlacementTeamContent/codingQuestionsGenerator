@@ -153,7 +153,6 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["code_metadata"].forEach(metadata => {
               if (metadata["language"] === code_language) {
                 metadata["code_data"] = response["code_data"];
-                metadata["default_code"] = true;
               }
               if (metadata["language"] === "PYTHON") {
                 metadata["language"] = "PYTHON39";
