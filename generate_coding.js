@@ -95,7 +95,7 @@ const extractQuestionsData = (prompt_responses) => {
                     "output": test_case["output"],
                     "is_hidden": is_hidden,
                     "score": 1,
-                    "testcase_type": "DEFAULT",
+                    "testcase_type": test_case["test_case_type"].toUpperCase(),
                     "t_id": i
                 }
                 input_output[0]["input"].push(input);
