@@ -65,12 +65,13 @@ const extractQuestionsData = (prompt_responses) => {
         prompt_response_json.forEach(response => {
             let question_data = {};
             let defaultTagNames = ["POOL_1"];
-            const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
             const companyTag = "SOURCE_CODING_" + company.toUpperCase();
-            let question_text = problem_text + "<hr /> <h3>Input:</h3>\n" + input_format + "<hr /> <h3>Output:</h3>\n" + output_format;
+            const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
+            let question_text = problem_text + "<hr /><h3>Input:</h3>\n" + input_format + "<hr /><h3>Output:</h3>\n" + output_format + "<hr />";
             if (constraints) {
-              question_text += "<hr /> <h3>Constraints:</h3>\n" + constraints;
+              question_text += "<h3>Constraints:</h3>\n" + constraints + "<hr />";
             }
+            question_text += "<h3>Explanation:</h3>\n" + "<hr />";
             defaultTagNames.push(companyTag);
             defaultTagNames.push(sourceTag);
             
