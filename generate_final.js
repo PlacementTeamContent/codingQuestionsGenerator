@@ -83,6 +83,10 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["tag_names"] = 3;
             question_data["resource_name"] = resources["resource_name"];
             question_data["resource_url"] = resources["resource_url"];
+            question_data["Exclusions"] = "";
+            question_data["Developer Review Remarks\n(Self)"] = "";
+            question_data["Review Changes incorporated"] = "";
+            question_data["Review Changes Remarks"] = "";
             final_json_sheet.push(question_data);
             
             for (let i=0; i<3; i++) {
@@ -114,6 +118,10 @@ const extractQuestionsData = (prompt_responses) => {
               tag_names["tag_names"] = defaultTagNames[i];
               tag_names["resource_name"] = "";
               tag_names["resource_url"] = "";
+              tag_names["Exclusions"] = "";
+              tag_names["Developer Review Remarks\n(Self)"] = "";
+              tag_names["Review Changes incorporated"] = "";
+              tag_names["Review Changes Remarks"] = "";
               final_json_sheet.push(tag_names);
             }
 
@@ -147,6 +155,10 @@ const extractQuestionsData = (prompt_responses) => {
                 test_cases["tag_names"] = "";
                 test_cases["resource_name"] = "";
                 test_cases["resource_url"] = "";
+                test_cases["Exclusions"] = "";
+                test_cases["Developer Review Remarks\n(Self)"] = "";
+                test_cases["Review Changes incorporated"] = "";
+                test_cases["Review Changes Remarks"] = "";
                 final_json_sheet.push(test_cases);
             }
         });
