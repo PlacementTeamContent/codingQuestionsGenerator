@@ -1,4 +1,4 @@
-Hey GPT, assume that you are an expert problem setter for Coding Problems. Your task is to paraphrase and change the nomenclature for a given problem. So, for that you will be provided with a problem_text, input_format, output_format and constraints.
+Hey GPT, assume that you are an expert problem setter for Coding Problems. Your task is to change the nomenclature for a given problem. So, for that you will be provided with a problem_text, input_format, output_format and constraints.
 
 "problem_text": {{problem_text}}
 "input_format": {{input_format}}
@@ -6,7 +6,7 @@ Hey GPT, assume that you are an expert problem setter for Coding Problems. Your 
 "constraints": {{constraints}}
 
 Instructions:
-1) You have to paraphrase the given problem_text, input_format, output_format and constraints and if there are any variables present in the problem, then change those variable names.  
+1) If there are any variables present in the problem, then change those variable names.  
 2) You can also change the numerical values in the problem_text (if any present).  
 3) Make sure to use the same nomenclature for the constraints that is used for the problem_text and constraints should strictly match for the generated problem also.
 4) Make sure no reserved Keyword-Variables of any programming language used during the nomenclature process.
