@@ -48,6 +48,7 @@ const extractQuestionsData = (prompt_responses) => {
         const output_format = prompt_response["output_format"];
         const constraints = prompt_response["constraints"];
         const company = prompt_response["company"] || "UNKNOWN";
+        const explanation = prompt_response["explanation"];
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         console.log(index, short_text);
@@ -64,16 +65,21 @@ const extractQuestionsData = (prompt_responses) => {
 
         prompt_response_json.forEach(response => {
             let question_data = {};
-            let defaultTagNames = ["POOL_1"];
-            const companyTag = "SOURCE_CODING_" + company.toUpperCase();
-            const sourceTag = "SOURCE_" + resources["resource_name"].toUpperCase();
-            let question_text = problem_text + "<hr /><h3>Input:</h3>\n" + input_format + "<hr /><h3>Output:</h3>\n" + output_format + "<hr />";
-            if (constraints) {
-              question_text += "<h3>Constraints:</h3>\n" + constraints + "<hr />";
+            let defaultTagNames = ["POOL_1", "TOPIC_PYTHON_CODING_XXXX", "IN_OFFLINE_EXAM"];
+            if (resources.resource_name.toUpperCase().includes("ASSESSMENT")) {
+              var companyTag = "SOURCE_NI_ASSESSMENT_" + company.toUpperCase();
             }
-            question_text += "<h3>Explanation:</h3>\n" + "<hr />";
+            else {
+              var companyTag = "SOURCE_EXT_ASSESSMENT_" + company.toUpperCase();
+            }
+            let question_text = problem_text + "<hr /><h3>Input:</h3>" + input_format + "<hr /><h3>Output:</h3>" + output_format + "<hr />";
+            if (constraints) {
+              question_text += "<h3>Constraints:</h3>" + constraints + "<hr />";
+            }
+            if (explanation) {
+              question_text += "<h3>Explanation:</h3>" + explanation + "<hr />";
+            }
             defaultTagNames.push(companyTag);
-            defaultTagNames.push(sourceTag);
             
             let input_output = [
                 {
@@ -83,13 +89,13 @@ const extractQuestionsData = (prompt_responses) => {
                 }
             ];
 
+            let count_of_non_hidden_cases = 0;
             for (let i=1; i<=10; i++) {
                 let is_hidden = true;
                 let test_case = response["test_cases"]["test_cases_"+i];
-                let count_of_non_hidden_cases = 0;
                 if (test_case["test_case_type"].toUpperCase() === "NORMAL_CASE" && count_of_non_hidden_cases < 2) {
                   is_hidden = false;
-                  count_of_non_hidden_cases += 1;
+                  count_of_non_hidden_cases++;
                 }
                 let input = {
                     "input": test_case["input"],

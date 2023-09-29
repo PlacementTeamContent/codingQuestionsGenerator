@@ -1,4 +1,4 @@
-Hey GPT, assume that you are an expert problem setter for Coding Problems. Your task is to change the nomenclature for a given problem. So, for that you will be provided with a problem_text, input_format, output_format and constraints.
+Hey GPT, your task is to change the variable names and numerical values (if any present) for a given coding problem. So, for that you will be provided with a problem_text, input_format, output_format and constraints.
 
 "problem_text": {{problem_text}}
 "input_format": {{input_format}}
@@ -6,12 +6,12 @@ Hey GPT, assume that you are an expert problem setter for Coding Problems. Your 
 "constraints": {{constraints}}
 
 Instructions:
-1) If there are any variables present in the problem, then change those variable names.  
-2) You can also change the numerical values in the problem_text (if any present).  
-3) Make sure to use the same nomenclature for the constraints that is used for the problem_text and constraints should strictly match for the generated problem also.
-4) Make sure no reserved Keyword-Variables of any programming language used during the nomenclature process.
-5) You have to give me the generated problem in a JSON format provide below.  
-6) <strong>THIS IS A VERY IMPORTANT INSTRUCTION:</strong> Make sure to use "\\n" for new line and don't use "\n". Even if you find any "\n" in the JSON values, do replace them with "\\n".    
+1) You have to change the variable names, if there are any variable names present in the problem. 
+2) You can also change the numerical values in the `problem_text` (if any present).  
+3) Make sure no reserved Keyword-Variables of any programming language used during the renaming process.
+4) You have to give me the generated problem in a JSON format provided below.  
+5) <strong>THIS IS A VERY IMPORTANT INSTRUCTION:</strong> Make sure to use "\\n" for new line and don't use "\n". Even if you find any "\n" in the JSON values, do replace them with "\\n".  
+6) DON'T CHANGE THE ENGLISH TEXT IN THE PROBLEM, EXCEPT THE VARIABLE NAMES.
 
 JSON Format:
 
