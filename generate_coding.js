@@ -72,12 +72,12 @@ const extractQuestionsData = (prompt_responses) => {
             else {
               var companyTag = "SOURCE_EXT_ASSESSMENT_" + company.toUpperCase();
             }
-            let question_text = problem_text + "<hr /><h3>Input:</h3>" + input_format + "<hr /><h3>Output:</h3>" + output_format + "<hr />";
+            let question_text = problem_text + "<hr /><b>Input</b><br />" + input_format + "<hr /><b>Output</b><br />" + output_format + "<hr />";
             if (constraints) {
-              question_text += "<h3>Constraints:</h3>" + constraints + "<hr />";
+              question_text += "<b>Constraints</b><br />" + constraints + "<hr />";
             }
             if (explanation) {
-              question_text += "<h3>Explanation:</h3>" + explanation + "<hr />";
+              question_text += "<b>Explanation</b><br />" + explanation + "<hr />";
             }
             defaultTagNames.push(companyTag);
             
