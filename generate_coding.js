@@ -48,6 +48,8 @@ const extractQuestionsData = (prompt_responses) => {
         const output_format = prompt_response["output_format"];
         const constraints = prompt_response["constraints"];
         const company = prompt_response["company"] || "UNKNOWN";
+        const sample_input = prompt_response["sample_input"];
+        const sample_output = prompt_response["sample_output"];
         const explanation = prompt_response["explanation"];
         const startIndex = prompt_response["prompt_response"].indexOf("```json\n[") + 8;
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
@@ -77,7 +79,7 @@ const extractQuestionsData = (prompt_responses) => {
               question_text += "<b>Constraints</b><br />" + constraints + "<hr />";
             }
             if (explanation) {
-              question_text += "<b>Explanation</b><br />" + explanation + "<hr />";
+              question_text += "<b>Explanation</b><br />Let's take an example:\n\n```\n" + sample_input + "\n```\n\n" + explanation + "<hr />";
             }
             defaultTagNames.push(companyTag);
             
