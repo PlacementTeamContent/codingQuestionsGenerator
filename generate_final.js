@@ -43,8 +43,9 @@ const extractQuestionsData = (prompt_responses) => {
           "resource_name": prompt_response["resource_name"], 
           "resource_url": prompt_response["resource_url"]
         };
-        const short_text = prompt_response["short_text"]; 
-        const explanation = prompt_response["explanation"];
+        const short_text = prompt_response["short_text"];
+        const sample_input = prompt_response["sample_input"]; 
+        let explanation = prompt_response["explanation"];
         const code_language = prompt_response["code_language"].toUpperCase();
         const company = prompt_response["company"];
         const difficulty_level = prompt_response["difficulty_level"] || "XXXX";
@@ -59,6 +60,8 @@ const extractQuestionsData = (prompt_responses) => {
               var companyTag = "SOURCE_EXT_ASSESSMENT_" + company.toUpperCase();
             }
             defaultTagNames.push(companyTag);
+
+            explanation = "Let's take an example:\n\n```\n" + sample_input + "\n```\n\n" + explanation;
 
             question_data["problem_text"] = prompt_response["problem_text"];
             question_data["input_format"] = prompt_response["input_format"];
