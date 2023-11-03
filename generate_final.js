@@ -61,7 +61,9 @@ const extractQuestionsData = (prompt_responses) => {
             }
             defaultTagNames.push(companyTag);
 
-            explanation = "Let's take an example:\n\n```\n" + sample_input + "\n```\n\n" + explanation;
+            if (explanation) {
+              explanation = "Let's take an example:\n\n```\n" + sample_input + "\n```\n\n" + explanation;
+            }
 
             question_data["problem_text"] = prompt_response["problem_text"];
             question_data["input_format"] = prompt_response["input_format"];
