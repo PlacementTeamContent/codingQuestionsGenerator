@@ -37,7 +37,7 @@ function start() {
         createFolder(output_zip_files_path);
         createFolder(final_responses_path);
         createFile(api_responses_path, "[]")
-        createFile(env_path, "API_KEY = \"\"\nPARENT_JSON_FILE_NAME = \"\"")
+        createFile(env_path, "API_KEY=\nPARENT_JSON_FILE_NAME=")
     } catch (error) {
       console.error("Error during processing:", error);
     }
