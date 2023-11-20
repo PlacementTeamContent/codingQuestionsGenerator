@@ -36,9 +36,9 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       
       let problem_text = prompt_response_json[0]["problem_text"];
       let short_text = questionObj["short_text"];
-      let input_format = prompt_response_json[0]["input_format"];
-      let output_format = prompt_response_json[0]["output_format"];
-      let constraints = prompt_response_json[0]["constraints"];
+      let input_format = prompt_response_json[0]["input_format"] | "";
+      let output_format = prompt_response_json[0]["output_format"] | "";
+      let constraints = prompt_response_json[0]["constraints"] | "";
       let code_language = questionObj["code"];
       
 
