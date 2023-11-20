@@ -74,7 +74,13 @@ const extractQuestionsData = (prompt_responses) => {
             else {
               var companyTag = "SOURCE_EXT_ASSESSMENT_" + company.toUpperCase();
             }
-            let question_text = problem_text + "<hr /><b>Input</b><br />" + input_format + "<hr /><b>Output</b><br />" + output_format + "<hr />";
+            let question_text = problem_text + "<hr />";
+            if (input_format) {
+              question_text += "<b>Input</b><br />" + input_format + "<hr />";
+            }
+            if (output_format) {
+              question_text += "<b>Output</b><br />" + output_format + "<hr />";
+            }
             if (constraints) {
               question_text += "<b>Constraints</b><br />" + constraints + "<hr />";
             }

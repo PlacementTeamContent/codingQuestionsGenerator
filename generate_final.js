@@ -66,8 +66,8 @@ const extractQuestionsData = (prompt_responses) => {
             }
 
             question_data["problem_text"] = prompt_response["problem_text"];
-            question_data["input_format"] = prompt_response["input_format"];
-            question_data["output_format"] = prompt_response["output_format"];
+            question_data["input_format"] = prompt_response["input_format"] | "";
+            question_data["output_format"] = prompt_response["output_format"] | "";
             question_data["short_text"] = short_text;
             question_data["explanation"] = explanation;
             // question_data["question_type"] = "CODING";
