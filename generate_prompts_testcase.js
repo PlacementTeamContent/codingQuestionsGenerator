@@ -30,16 +30,16 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       const endIndex = prompt_response.lastIndexOf("]\n```");
       console.log(index);
       let prompt_response_str = prompt_response.slice(startIndex, endIndex+1);
-      prompt_response_str.replaceAll("\\\\n", "\\n");
+      prompt_response_str = prompt_response_str.replaceAll("\\\\n", "\\n");
 
       const prompt_response_json = JSON.parse(prompt_response_str);
       
       let problem_text = prompt_response_json[0]["problem_text"];
       let short_text = questionObj["short_text"];
-      let input_format = prompt_response_json[0]["input_format"] | "";
-      let output_format = prompt_response_json[0]["output_format"] | "";
-      let constraints = prompt_response_json[0]["constraints"] | "";
-      let code_language = questionObj["code"];
+      let input_format = prompt_response_json[0]["input_format"] || "";
+      let output_format = prompt_response_json[0]["output_format"] || "";
+      let constraints = prompt_response_json[0]["constraints"] || "";
+      let code_language = questionObj["code_language"];
       
 
       let description = "";
@@ -61,7 +61,7 @@ fs.readFile(responses_paraphrase_json_file_path, "utf8", (readErr, questions_dat
       questionObj.short_text = short_text;
       questionObj.input_format = input_format;
       questionObj.output_format = output_format;
-      questionObj.constraints;
+      questionObj.constraints = constraints;
     });
 
     const updatedJsonData = JSON.stringify(questions_data_json, null, 2);

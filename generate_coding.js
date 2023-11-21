@@ -55,7 +55,7 @@ const extractQuestionsData = (prompt_responses) => {
         const endIndex = prompt_response["prompt_response"].lastIndexOf("]\n```");
         console.log(index, short_text);
         let prompt_response_str = prompt_response["prompt_response"].slice(startIndex, endIndex+1);
-        prompt_response_str.replaceAll("\\\\n", "\\n");
+        prompt_response_str = prompt_response_str.replaceAll("\\\\n", "\\n");
 
       const prompt_response_json = JSON.parse(prompt_response_str);
         let resources = {

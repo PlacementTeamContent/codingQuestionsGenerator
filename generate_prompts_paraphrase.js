@@ -24,12 +24,14 @@ fs.readFile(parent_json_file_path, "utf8", (readErr, questions_data) => {
     }
 
     questions_data_json.forEach((questionObj) => {
-      let problem_text = questionObj["problem_text"];
+      let problem_text = questionObj["problem_text"].replaceAll("\n", "\\n");
       let short_text = questionObj["short_text"];
-      let input_format = questionObj["input_format"];
-      let output_format = questionObj["output_format"];
-      let constraints = questionObj["constraints"];
-      
+      let input_format = questionObj["input_format"] || "";
+      let output_format = questionObj["output_format"] || "";
+      let constraints = questionObj["constraints"] || "";
+      input_format = input_format.replaceAll("\n", "\\n");
+      output_format = output_format.replaceAll("\n", "\\n");
+      constraints = constraints.replaceAll("\n", "\\n");
 
       let description = "";
 
