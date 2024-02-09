@@ -1,26 +1,28 @@
-import { Configuration, OpenAIApi } from "openai";
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 import fs from "fs";
 import dotenv from "dotenv";
-dotenv.config()
+dotenv.config();
 
 const parent_json_file_name = process.env.PARENT_JSON_FILE_NAME;
-const prompts_paraphrase_json_file_name = parent_json_file_name + "_p_paraphrase.json";
-const prompts_paraphrase_path = "./prompts_paraphrase_json/" + prompts_paraphrase_json_file_name;
-const responses_paraphrase_path = "./responses_paraphrase_json/" + parent_json_file_name + "_r_paraphrase.json";
+const prompts_paraphrase_json_file_name =
+  parent_json_file_name + "_p_paraphrase.json";
+const prompts_paraphrase_path =
+  "./prompts_paraphrase_json/" + prompts_paraphrase_json_file_name;
+const responses_paraphrase_path =
+  "./responses_paraphrase_json/" + parent_json_file_name + "_r_paraphrase.json";
 const api_responses_path = "./api_responses.json";
 
-fs.writeFile(responses_paraphrase_path, "[]", 'utf8', (err) => {
+fs.writeFile(responses_paraphrase_path, "[]", "utf8", (err) => {
   if (err) {
-    console.error('An error occurred while writing the file:', err);
+    console.error("An error occurred while writing the file:", err);
     return;
   }
 });
 
-const configuration = new Configuration({
-  apiKey: process.env.API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
+const client = new OpenAIClient(
+  process.env.AZURE_OPENAI_ENDPOINT, // Your Azure OpenAI endpoint
+  new AzureKeyCredential(process.env.AZURE_API_KEY) // Your Azure OpenAI API key
+);
 
 const fileLocks = {};
 
@@ -82,7 +84,6 @@ async function saveResponseToFile(file_path, response) {
       await writeFileAsync(file_path, JSON.stringify(data));
       console.log(`Written into ${file_path}\n`);
     });
-
   } catch (error) {
     console.error("Error reading or writing to file:", error);
   }
@@ -90,7 +91,10 @@ async function saveResponseToFile(file_path, response) {
 
 async function getQuestionPrompts() {
   try {
-    const questions_prompts = await readFileAsync(prompts_paraphrase_path, "utf8");
+    const questions_prompts = await readFileAsync(
+      prompts_paraphrase_path,
+      "utf8"
+    );
     const questions_prompts_json = JSON.parse(questions_prompts);
     return questions_prompts_json;
   } catch (error) {
@@ -117,47 +121,40 @@ function delay(ms) {
 }
 
 async function getGPTResponse(message, question_prompt) {
-  
+  const options = {
+    temperature: 0,
+    max_tokens: 4000,
+  };
   try {
-    const response = await openai.createChatCompletion({
-      model: "gpt-4",
-      messages: [message],
-      temperature: 0,
-      max_tokens: 4000,
-    });
+    const { choices } = await client.getChatCompletions(
+      "gpt-4-latest", // Ensure the model and deployment ID is correct
+      [message],
+      options
+    );
 
-    const api_response = response.data;
+    const api_response = choices[0];
 
     saveResponseToFile(api_responses_path, api_response);
 
     const question_response_obj = {
       ...question_prompt,
-      prompt_response: api_response.choices[0].message.content,
+      prompt_response: api_response.message.content,
     };
 
-    saveResponseToFile(
-      responses_paraphrase_path,
-      question_response_obj
-    );
+    saveResponseToFile(responses_paraphrase_path, question_response_obj);
 
     console.log("--------------------------------------------");
   } catch (error) {
     console.error("Error while processing message:", error.message);
 
-    saveResponseToFile(
-      api_responses_path,
-      { error: error.message }
-    );
+    saveResponseToFile(api_responses_path, { error: error.message });
 
     const error_response_obj = {
       ...question_prompt,
       prompt_response: `Error: ${error.message}`,
     };
 
-    saveResponseToFile(
-      responses_paraphrase_path,
-      error_response_obj
-    );
+    saveResponseToFile(responses_paraphrase_path, error_response_obj);
   }
 }
 
