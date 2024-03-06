@@ -67,12 +67,20 @@ const extractQuestionsData = (prompt_responses) => {
 
         prompt_response_json.forEach(response => {
             let question_data = {};
-            let defaultTagNames = ["POOL_1", "TOPIC_PYTHON_CODING_XXXX", "IN_OFFLINE_EXAM"];
-            if (resources.resource_name.toUpperCase().includes("ASSESSMENT")) {
-              var companyTag = "SOURCE_NI_ASSESSMENT_" + company.toUpperCase();
-            }
-            else {
-              var companyTag = "SOURCE_EXT_ASSESSMENT_" + company.toUpperCase();
+            let defaultTagNames = [
+              "POOL_1",
+              "DIFFICUILTY_XXXX",
+              "IN_OFFLINE_EXAM",
+              "TOPIC_PYTHON_CODING",
+              "SOURCE_XXXX",
+              
+            ];
+
+            var companyTag = "COMPANY_" + company.toUpperCase();
+            if(code_language === "NODE_JS"){
+              var subTopicTag = "SUB_TOPIC_JS_CODING";
+            }else{
+              var subTopicTag = "SUB_TOPIC_PYTHON_CODING";
             }
             let question_text = problem_text + "<hr />";
             if (input_format) {
@@ -87,6 +95,7 @@ const extractQuestionsData = (prompt_responses) => {
             if (explanation) {
               question_text += "<b>Explanation</b><br />Let's take an example:\n\n```\n" + sample_input + "\n```\n\n" + explanation + "<hr />";
             }
+            defaultTagNames.push(subTopicTag);
             defaultTagNames.push(companyTag);
             
             let input_output = [
@@ -117,9 +126,11 @@ const extractQuestionsData = (prompt_responses) => {
             }
             question_data["input_output"] = input_output;
             question_data["question_text"] = question_text;
+            question_data["code_data"] = response["code_data"];
             question_data["short_text"] = short_text;
             question_data["question_type"] = "CODING";
             question_data["question_key"] = index;
+            question_data["skills"] = [];
             question_data["skills"] = [];
             question_data["question_format"] = "CODING_PRACTICE";
             question_data["content_type"] = "MARKDOWN";
@@ -136,39 +147,47 @@ const extractQuestionsData = (prompt_responses) => {
             question_data["solutions"] = [];
             question_data["hints"] = [];
             question_data["code_metadata"] = [
-                {
-                  "is_editable": true,
-                  "language": "PYTHON",
-                  "code_data": "",
-                  "default_code": true,
-                  "base64_encoded": false
-                },
-                {
-                  "is_editable": true,
-                  "language": "C",
-                  "code_data": "",
-                  "default_code": false,
-                  "base64_encoded": false
-                },
-                {
-                  "is_editable": true,
-                  "language": "CPP",
-                  "code_data": "",
-                  "default_code": false,
-                  "base64_encoded": false
-                },
-                {
-                  "is_editable": true,
-                  "language": "JAVA",
-                  "code_data": "",
-                  "default_code": false,
-                  "base64_encoded": false
-                },
+              {
+                is_editable: true,
+                language: "PYTHON",
+                code_data: "",
+                default_code: true,
+                base64_encoded: false,
+              },
+              {
+                is_editable: true,
+                language: "C",
+                code_data: "",
+                default_code: false,
+                base64_encoded: false,
+              },
+              {
+                is_editable: true,
+                language: "CPP",
+                code_data: "",
+                default_code: false,
+                base64_encoded: false,
+              },
+              {
+                is_editable: true,
+                language: "JAVA",
+                code_data:
+                  "import java.util.Scanner;\n \npublic class main {\n    public static void main(String[] args) {\n        //Write your code below\n\n    }\n}",
+                default_code: false,
+                base64_encoded: false,
+              },
+              {
+                is_editable: true,
+                language: "NODE_JS",
+                code_data: "",
+                default_code: false,
+                base64_encoded: false,
+              },
             ];
             question_data["code_metadata"].forEach(metadata => {
-              if (metadata["language"] === code_language) {
-                metadata["code_data"] = response["code_data"];
-              }
+              // if (metadata["language"] === code_language) {
+              //   metadata["code_data"] = response["code_data"];
+              // }
               if (metadata["language"] === "PYTHON") {
                 metadata["language"] = "PYTHON39";
               }
