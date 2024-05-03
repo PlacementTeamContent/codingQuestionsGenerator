@@ -69,7 +69,7 @@ const extractQuestionsData = (prompt_responses) => {
             let question_data = {};
             let defaultTagNames = [
               "POOL_1",
-              "DIFFICUILTY_XXXX",
+              "DIFFICULTY_XXXX",
               "IN_OFFLINE_EXAM",
               "TOPIC_PYTHON_CODING",
               "SOURCE_XXXX",
